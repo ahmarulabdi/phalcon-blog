@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Phalcon Blog</title>
+        <link rel="stylesheet" href="<?= $this->url->get('public/css/bootstrap.min.css') ?>">
+        <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.ico')?>"/>
+    </head>
+    <body>
+    <?php if (!empty($this->session->get('user'))): ?>
+      <!-- navbar hanya akan muncul jika session user sudah terdaftar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Phalcon Blog</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <?php if ($this->session->get('user')->hak_akses == 'administrator'): ?>
+              <!-- menu untuk administrator -->
+              <li class="active"><a href="<?= $this->url->get('administrator/index') ?>">Home</a></li>
+              <li><a href="<?= $this->url->get('administrator/usersread') ?>">Users</a></li>
+            <?php elseif($this->session->get('user')->hak_akses == 'blogger'): ?>
+              <!-- menu untuk blogger -->
+              <li class="active"><a href="<?= $this->url->get('blogger/index') ?>">Home</a></li>
+              <li><a href="<?= $this->url->get('blogger/postsread') ?>">Posts saya</a></li>
+            <?php endif; ?>
+            <li><a href="<?= $this->url->get('session/logout') ?>">Logout</a></li>  
+            
+          </ul>
+        </div>
+      </nav>
+    <?php endif ?>
+        <div class="container">
+            <?php echo $this->getContent(); ?>
+        </div>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="<?= $this->url->get('public/js/jquery-3.2.1.min.js') ?>"></script>
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="<?= $this->url->get('public/js/bootstrap.min.js') ?>"></script>
+        
+    </body>
+</html>
